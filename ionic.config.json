@@ -1,0 +1,7 @@
+{
+  "name": "ionic-whatsapp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
