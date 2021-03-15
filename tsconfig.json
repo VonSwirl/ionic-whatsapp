@@ -16,5 +16,5 @@
 		"noEmit": true,
 		"jsx": "preserve"
 	},
-	"include": ["src", "types.d.ts"]
+	"include": ["src", "types.d.ts", "src/state.ts"]
 }

@@ -1,7 +1,5 @@
-import { initState } from "../state";
-
 export const reducerApp: IReducer<State, Action> = (
-	state: any = initState,
+	state: any,
 	action: Action
 ) => {
 	switch (action.type) {
