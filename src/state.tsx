@@ -1,13 +1,12 @@
 import { createContext, useReducer } from "react";
 import { reducerApp } from "./reducers/reducer-app";
+import appConfig from "./appConfig";
 
-export const initState: State = { appName: "WHAZZ" };
-
-export const AppContext = createContext(initState);
+export const AppContext = createContext(appConfig.state);
 
 export const AppContextProvider: React.FC = ({ children }) => {
 	const [state, dispatch] = useReducer(reducerApp, {
-		...initState,
+		...appConfig.state,
 	});
 
 	const values = { ...state, dispatch };
