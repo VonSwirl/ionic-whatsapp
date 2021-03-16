@@ -12,6 +12,7 @@ declare namespace NodeJS {
 		REACT_APP_FIREBASE_MSG_SENDER_ID: string;
 		REACT_APP_FIREBASE_APP_ID: string;
 		REACT_APP_FIREBASE_MEASUREMENT_ID: string;
+		REACT_APP_FIREBASE_DB_URL: string;
 	}
 }
 
@@ -27,6 +28,7 @@ interface AppContextProvider {}
 
 interface State {
 	appName: string;
+	user: any | undefined;
 }
 
 interface IAppAction {
@@ -59,3 +61,7 @@ interface Message {
 type FirestoreData = Message | User;
 
 type CollectionName = "users" | "messages";
+
+interface AppConfig {
+	state: State;
+}
