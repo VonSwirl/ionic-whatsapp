@@ -1,6 +1,9 @@
-const appConfig = {
+const user = localStorage.getItem("whatsapp-clone-user");
+
+const appConfig: AppConfig = {
 	state: {
-		appName: "WHAZZ",
+		appName: "WHAZZAP!",
+		user: user ? JSON.parse(user) : undefined,
 	},
 };
 
