@@ -31,7 +31,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import { runSeeder } from "./firebase-seeder/seed";
+import { runSeeder } from "./firebase/seed";
 
 const App: React.FC = () => (
 	<IonApp>

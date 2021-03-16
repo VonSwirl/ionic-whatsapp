@@ -1,12 +1,9 @@
 import { dummyUsers, dummyMessages } from "./data";
-import { fireBaseApp } from "./app";
+import { db } from "./app";
 import { addToCollection } from "./lib";
 
 export const runSeeder = async () => {
-	const fbase = await fireBaseApp();
-	const db = fbase.firestore();
-
-	if (fbase && fbase.firestore()) {
+	if (db) {
 		const usersEmpty = await db
 			.collection("users")
 			.get()
