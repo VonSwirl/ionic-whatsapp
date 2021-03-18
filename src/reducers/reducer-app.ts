@@ -1,7 +1,4 @@
-export const reducerApp: IReducer<State, Action> = (
-	state: any,
-	action: Action
-) => {
+export const reducerApp = (state: State, action: any) => {
 	switch (action.type) {
 		case "setAppName":
 			return { ...state, appName: action.payload };
