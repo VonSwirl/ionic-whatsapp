@@ -16,23 +16,13 @@ declare namespace NodeJS {
 	}
 }
 
-type IReducer<S, A> = (prevState: S, action: A) => S;
-type IDispatch<IAppAction> = (value: IAppAction) => void;
-
-interface Action {
-	type: string;
-	payload: string;
-}
-
-interface AppContextProvider {}
-
 interface State {
 	appName: string;
-	user: any | undefined;
+	user: User | undefined;
 }
 
-interface IAppAction {
-	type: "setAppName" | "addMore";
+interface AppActions {
+	type: "setAppName" | "loadUser";
 	payload: string;
 }
 
@@ -47,6 +37,7 @@ interface User {
 	avatar: string;
 	lastSeen: Date;
 	contacts: Contact[];
+	passcode: string;
 }
 interface Message {
 	id: string;
@@ -58,10 +49,21 @@ interface Message {
 	time: Date;
 }
 
-type FirestoreData = Message | User;
+type IFirestoreData = Message | User;
 
 type CollectionName = "users" | "messages";
 
-interface AppConfig {
+type Dispatch = ({
+	type,
+	payload,
+}: {
+	type: DispatchTypes;
+	payload: any;
+}) => void;
+
+type DispatchTypes = "setAppName" | "loadUser";
+
+interface IContextProps {
 	state: State;
+	dispatch: Dispatch;
 }

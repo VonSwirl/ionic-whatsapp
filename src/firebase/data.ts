@@ -4,6 +4,7 @@ export const dummyUsers: User[] = [
 	{
 		id: "604f53aafc13ae51a3000011",
 		name: "Padget Phebey",
+		passcode: "111111",
 		avatar: "https://eu.ui-avatars.com/api/?name=p+p",
 		lastSeen: now,
 		contacts: [
@@ -22,6 +23,7 @@ export const dummyUsers: User[] = [
 	{
 		id: "604f53aafc13ae51a3000012",
 		name: "Valma Tidbold",
+		passcode: "222222",
 		avatar: "https://eu.ui-avatars.com/api/?name=v+t",
 		lastSeen: now,
 		contacts: [
@@ -39,6 +41,7 @@ export const dummyUsers: User[] = [
 	},
 	{
 		id: "604f53aafc13ae51a3000013",
+		passcode: "333333",
 		name: "Fancy Rhoades",
 		avatar: "https://eu.ui-avatars.com/api/?name=f+r",
 		lastSeen: now,
@@ -57,6 +60,7 @@ export const dummyUsers: User[] = [
 	},
 	{
 		id: "604f53aafc13ae51a3000014",
+		passcode: "444444",
 		name: "Ginger Blackburn",
 		avatar: "https://eu.ui-avatars.com/api/?name=n+a",
 		lastSeen: now,
@@ -64,6 +68,7 @@ export const dummyUsers: User[] = [
 	},
 	{
 		id: "604f53aafc13ae51a3000015",
+		passcode: "555555",
 		name: "Nanny Greim",
 		avatar: "https://eu.ui-avatars.com/api/?name=n+a",
 		lastSeen: now,
@@ -71,6 +76,7 @@ export const dummyUsers: User[] = [
 	},
 	{
 		id: "604f53aafc13ae51a3000016",
+		passcode: "666666",
 		name: "Colby Celle",
 		avatar: "https://eu.ui-avatars.com/api/?name=n+a",
 		lastSeen: now,
@@ -79,6 +85,7 @@ export const dummyUsers: User[] = [
 	{
 		id: "604f53aafc13ae51a3000017",
 		name: "Lucian Ivasechko",
+		passcode: "777777",
 
 		avatar: "https://eu.ui-avatars.com/api/?name=n+a",
 		lastSeen: now,

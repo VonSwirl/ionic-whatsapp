@@ -1,6 +1,6 @@
 import { dummyUsers, dummyMessages } from "./data";
-import { db } from "./app";
-import { addToCollection } from "./lib";
+import { db } from "./firestore/db";
+import { addToCollection } from "./firestore/lib";
 
 export const runSeeder = async () => {
 	if (db) {

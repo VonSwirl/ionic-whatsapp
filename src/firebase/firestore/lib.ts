@@ -1,8 +1,8 @@
-import { Firestore } from "./app";
+import { IFirestore } from "../app";
 
 export const addToCollection = (
-	db: Firestore,
-	data: FirestoreData,
+	db: IFirestore,
+	data: IFirestoreData,
 	collectionName: CollectionName
 ) => {
 	db.collection(collectionName)
