@@ -3,9 +3,9 @@ import { IonReactRouter } from "@ionic/react-router";
 import { Redirect, Route } from "react-router-dom";
 import { IonLabel, IonTabBar, IonTabButton } from "@ionic/react";
 import { runSeeder } from "../firebase/seed";
-import { Chat } from "./Chat";
-import { Status } from "./Status";
-import { Calls } from "./Calls";
+import { ChatsTab } from "./ChatsTab";
+import { StatusTab } from "./StatusTab";
+import { CallsTab } from "./CallsTab";
 import "../theme/variables.css";
 import "../app/App.css";
 
@@ -15,13 +15,13 @@ export const UserPage = () => {
 			<IonTabs>
 				<IonRouterOutlet>
 					<Route exact path="/chat">
-						<Chat />
+						<ChatsTab />
 					</Route>
 					<Route exact path="/status">
-						<Status />
+						<StatusTab />
 					</Route>
 					<Route path="/calls">
-						<Calls />
+						<CallsTab />
 					</Route>
 					<Route exact path="/">
 						<Redirect to="/chat" />
@@ -34,7 +34,7 @@ export const UserPage = () => {
 					<IonTabButton tab="status" href="/status" className="tab-button">
 						<IonLabel>STATUS</IonLabel>
 					</IonTabButton>
-					<IonTabButton tab="Calls" href="/calls" className="tab-button">
+					<IonTabButton tab="calls" href="/calls" className="tab-button">
 						<IonLabel>CALLS</IonLabel>
 					</IonTabButton>
 				</IonTabBar>

@@ -1,9 +1,9 @@
 import { IonContent, IonPage } from "@ionic/react";
 
-export const Status = () => {
+export const CallsTab = () => {
 	return (
 		<IonPage>
-			<IonContent fullscreen>Status</IonContent>
+			<IonContent fullscreen>Calls</IonContent>
 		</IonPage>
 	);
 };

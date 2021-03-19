@@ -42,3 +42,7 @@
   width: 100px;
   margin: 0px auto;
 }
+
+.chat-page {
+  --padding-end: 10px;
+}
