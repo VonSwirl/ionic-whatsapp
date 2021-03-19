@@ -1,11 +1,9 @@
 import { IonContent, IonPage } from "@ionic/react";
 
-const Tab3: React.FC = () => {
+export const Chat: React.FC = () => {
 	return (
 		<IonPage>
-			<IonContent fullscreen>T3</IonContent>
+			<IonContent fullscreen>Chat</IonContent>
 		</IonPage>
 	);
 };
-
-export default Tab3;
