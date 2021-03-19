@@ -1,6 +1,6 @@
 import { IonContent, IonPage } from "@ionic/react";
 
-export const Chat: React.FC = () => {
+export const Chat = () => {
 	return (
 		<IonPage>
 			<IonContent fullscreen>Chat</IonContent>

@@ -1,6 +1,6 @@
 import { IonContent, IonPage } from "@ionic/react";
 
-export const Status: React.FC = () => {
+export const Status = () => {
 	return (
 		<IonPage>
 			<IonContent fullscreen>Status</IonContent>

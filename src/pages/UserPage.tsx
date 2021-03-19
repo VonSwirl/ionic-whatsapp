@@ -20,7 +20,7 @@ export const UserPage = () => {
 					<Route exact path="/status">
 						<Status />
 					</Route>
-					<Route path="/Calls">
+					<Route path="/calls">
 						<Calls />
 					</Route>
 					<Route exact path="/">
@@ -34,7 +34,7 @@ export const UserPage = () => {
 					<IonTabButton tab="status" href="/status" className="tab-button">
 						<IonLabel>STATUS</IonLabel>
 					</IonTabButton>
-					<IonTabButton tab="Calls" href="/Calls" className="tab-button">
+					<IonTabButton tab="Calls" href="/calls" className="tab-button">
 						<IonLabel>CALLS</IonLabel>
 					</IonTabButton>
 				</IonTabBar>
