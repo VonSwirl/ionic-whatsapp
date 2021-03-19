@@ -11,7 +11,7 @@ export const ChatsTab = (props: Props) => {
 	console.log({ state });
 	return (
 		<IonPage>
-			<IonContent className="chat-page" fullscreen>
+			<IonContent className="chat-page">
 				<IonList>
 					{state.user!.contacts.map((contact) => (
 						<ChatItem

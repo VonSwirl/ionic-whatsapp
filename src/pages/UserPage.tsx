@@ -6,6 +6,7 @@ import { runSeeder } from "../firebase/seed";
 import { ChatsTab } from "./ChatsTab";
 import { StatusTab } from "./StatusTab";
 import { CallsTab } from "./CallsTab";
+import { ChatPage } from "./ChatPage";
 import "../theme/variables.css";
 import "../app/App.css";
 
@@ -14,21 +15,24 @@ export const UserPage = () => {
 		<IonReactRouter>
 			<IonTabs>
 				<IonRouterOutlet>
-					<Route exact path="/chat">
+					<Route exact path="/chats">
 						<ChatsTab />
 					</Route>
 					<Route exact path="/status">
 						<StatusTab />
 					</Route>
-					<Route path="/calls">
+					<Route exact path="/calls">
 						<CallsTab />
 					</Route>
 					<Route exact path="/">
-						<Redirect to="/chat" />
+						<Redirect to="/chats" />
+					</Route>
+					<Route exact path="/chat-page">
+						<ChatPage />
 					</Route>
 				</IonRouterOutlet>
 				<IonTabBar slot="top" className="menu-bar">
-					<IonTabButton tab="chat" href="/chat" className="tab-button">
+					<IonTabButton tab="chat" href="/chats" className="tab-button">
 						<IonLabel onClick={() => runSeeder()}>CHATS</IonLabel>
 					</IonTabButton>
 					<IonTabButton tab="status" href="/status" className="tab-button">

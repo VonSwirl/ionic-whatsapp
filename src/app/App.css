@@ -1,3 +1,7 @@
+.text-align-start {
+  text-align: start;
+}
+
 .menu-bar {
   --background: #128c7e;
   --color: #ebecf0;
