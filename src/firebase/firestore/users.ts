@@ -1,10 +1,12 @@
 import { db } from "./db";
 
+const collectionName = "users";
+
 const getByPasscode = async (passcode: string): Promise<User | undefined> => {
 	console.log("qqqq");
 
 	const docs = await db
-		.collection("users")
+		.collection(collectionName)
 		.where("passcode", "==", passcode)
 		.get();
 
@@ -27,6 +29,5 @@ const getByPasscode = async (passcode: string): Promise<User | undefined> => {
 };
 
 export const Users = {
-	getByPasscode: (passcode: string) => getByPasscode(passcode),
+	getByPasscode,
 };
-//

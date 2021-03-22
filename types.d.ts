@@ -42,12 +42,12 @@ interface User {
 
 interface Message {
 	id: string;
+	time: Date;
+	type: string;
 	sentBy: string;
 	channel: string;
-	type: string;
 	message: string;
-	fileUrl: string;
-	time: Date;
+	fileUrl?: string;
 }
 
 type IFirestoreData = Message | User;

@@ -14,18 +14,44 @@ import {
 	IonToolbar,
 	useIonViewWillLeave,
 } from "@ionic/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../state";
 import { happyOutline, linkOutline, sendSharp } from "ionicons/icons";
+import { uniqueString, getTimestamp } from "../utils";
+import { Messages } from "../firebase/firestore/messages";
 
 export const ChatPage = () => {
 	const { state, dispatch } = useContext(AppContext);
 
+	const [message, setMessage] = useState<string | null>(null);
+
 	useIonViewWillLeave(() => dispatch({ type: "setShowTabs", payload: true }));
 
+	if (!state) return <></>;
+	if (!state.user) return <></>;
 	if (!state.chatWith) return <></>;
 
-	const { avatar, name } = state.chatWith;
+	const chattingWithUser = state.chatWith;
+	const appUser = state.user;
+
+	const sendMessage = async () => {
+		if (message) {
+			let messageBody: Message = {
+				id: uniqueString(),
+				type: "text",
+				sentBy: appUser.id,
+				time: getTimestamp(),
+				channel: `${appUser.id},${chattingWithUser.userId},`,
+				message: message,
+			};
+			Messages.sendMessage(messageBody);
+			setMessage(null);
+		}
+	};
+
+	const onChangeMessage = (message: string | null | undefined) => {
+		if (message) setMessage(message);
+	};
 
 	return (
 		<IonPage>
@@ -37,13 +63,15 @@ export const ChatPage = () => {
 					>
 						<img
 							src={
-								avatar ||
+								chattingWithUser.avatar ||
 								"https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png"
 							}
 							alt="icon"
 						/>
 					</IonAvatar>
-					<IonTitle className="text-align-start">{name}</IonTitle>
+					<IonTitle className="text-align-start">
+						{chattingWithUser.name}
+					</IonTitle>
 				</IonToolbar>
 			</IonHeader>
 			<IonContent>Chattty ness</IonContent>
@@ -58,7 +86,11 @@ export const ChatPage = () => {
 											<IonIcon size="large" icon={happyOutline}></IonIcon>
 										</IonCol>
 										<IonCol size="8">
-											<IonInput placeholder="Type a message"></IonInput>
+											<IonInput
+												value={message}
+												placeholder="Type a message"
+												onIonChange={(evt) => onChangeMessage(evt.detail.value)}
+											></IonInput>
 										</IonCol>
 										<IonCol size="2">
 											<IonIcon
@@ -71,7 +103,10 @@ export const ChatPage = () => {
 								</IonGrid>
 							</IonCol>
 							<IonCol size="2">
-								<IonButton className="chat-send-button">
+								<IonButton
+									onClick={() => sendMessage()}
+									className="chat-send-button"
+								>
 									<IonIcon icon={sendSharp}></IonIcon>
 								</IonButton>
 							</IonCol>
