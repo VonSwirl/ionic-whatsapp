@@ -15,10 +15,11 @@ export const ChatsTab = (props: Props) => {
 				<IonList>
 					{state.user!.contacts.map((contact) => (
 						<ChatItem
+							userId={contact.userId}
 							key={contact.name}
 							avatar={contact.avatar}
 							name={contact.name}
-							message={contact.userId}
+							lastMessage={contact.lastMessage}
 						/>
 					))}
 				</IonList>

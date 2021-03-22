@@ -3,18 +3,12 @@ import { useContext } from "react";
 import { useHistory } from "react-router";
 import { AppContext } from "../state";
 
-interface Props {
-	name: string;
-	avatar: string;
-	message: string;
-}
-
-export const ChatItem = (props: Props) => {
-	const { avatar, name, message } = props;
+export const ChatItem = (props: Contact) => {
+	const { avatar, name, lastMessage } = props;
 
 	const history = useHistory();
 
-	const { dispatch } = useContext(AppContext);
+	const { state, dispatch } = useContext(AppContext);
 
 	const goToChat = () => {
 		// Disables the IonTabs for chat-page
@@ -24,7 +18,7 @@ export const ChatItem = (props: Props) => {
 		dispatch({ type: "setChatWith", payload: props });
 
 		// Navigate to chat-page
-		history.push("/chat-page");
+		history.push("/chat-page", state);
 	};
 
 	return (
@@ -40,7 +34,7 @@ export const ChatItem = (props: Props) => {
 			</IonAvatar>
 			<IonLabel>
 				<h2>{name}</h2>
-				<p>{message}</p>
+				<p>{lastMessage}</p>
 			</IonLabel>
 		</IonItem>
 	);

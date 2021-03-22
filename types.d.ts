@@ -26,9 +26,10 @@ interface State {
 }
 
 interface Contact {
-	userId: string;
 	name: string;
+	userId: string;
 	avatar: string;
+	lastMessage: string;
 }
 
 interface User {
@@ -43,7 +44,7 @@ interface User {
 interface Message {
 	id: string;
 	time: Date;
-	type: string;
+	type: "text" | "media";
 	sentBy: string;
 	channel: string;
 	message: string;

@@ -12,6 +12,7 @@ import {
 	IonRow,
 	IonTitle,
 	IonToolbar,
+	useIonViewWillEnter,
 	useIonViewWillLeave,
 } from "@ionic/react";
 import { useContext, useState } from "react";
@@ -20,36 +21,42 @@ import { happyOutline, linkOutline, sendSharp } from "ionicons/icons";
 import { uniqueString, getTimestamp } from "../utils";
 import { Messages } from "../firebase/firestore/messages";
 
-export const ChatPage = () => {
-	const { state, dispatch } = useContext(AppContext);
-
+export const ChatPage = (state: State) => {
+	const { dispatch } = useContext(AppContext);
 	const [message, setMessage] = useState<string | null>(null);
+	const [chatMessages, setChatMessages] = useState<Message[]>([]);
 
-	useIonViewWillLeave(() => dispatch({ type: "setShowTabs", payload: true }));
+	useIonViewWillEnter(async () => {
+		if (state && state.user && state.chatWith) {
+			const userA = state.user.id;
+			const userB = state.chatWith.userId;
+			Messages.subscribe(userA, userB, setChatMessages);
+		}
+	});
 
-	if (!state) return <></>;
-	if (!state.user) return <></>;
-	if (!state.chatWith) return <></>;
-
-	const chattingWithUser = state.chatWith;
-	const appUser = state.user;
+	useIonViewWillLeave(() => {
+		dispatch({ type: "setShowTabs", payload: true });
+		Messages.unSubscribe();
+	});
 
 	const sendMessage = async () => {
-		if (message) {
-			let messageBody: Message = {
+		if (message && state.user && state.chatWith) {
+			Messages.sendMessage({
 				id: uniqueString(),
 				type: "text",
-				sentBy: appUser.id,
+				sentBy: state.user.id,
 				time: getTimestamp(),
-				channel: `${appUser.id},${chattingWithUser.userId},`,
+				channel: `${state.user.id},${state.chatWith.userId}`,
 				message: message,
-			};
-			Messages.sendMessage(messageBody);
+			});
+
 			setMessage(null);
 		}
 	};
 
 	const onChangeMessage = (message: string | null | undefined) => {
+		console.log(state.chatWith);
+
 		if (message) setMessage(message);
 	};
 
@@ -63,18 +70,23 @@ export const ChatPage = () => {
 					>
 						<img
 							src={
-								chattingWithUser.avatar ||
-								"https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png"
+								state.chatWith
+									? state.chatWith.avatar
+									: "https://www.jea.com/cdn/images/avatar/avatar-alt.svg"
 							}
 							alt="icon"
 						/>
 					</IonAvatar>
 					<IonTitle className="text-align-start">
-						{chattingWithUser.name}
+						{state.chatWith ? state.chatWith.name : ""}
 					</IonTitle>
 				</IonToolbar>
 			</IonHeader>
-			<IonContent>Chattty ness</IonContent>
+			<IonContent>
+				{chatMessages.map((chat) => (
+					<div key={chat.id}>{chat.message}</div>
+				))}
+			</IonContent>
 			<IonFooter>
 				<IonToolbar>
 					<IonGrid>
