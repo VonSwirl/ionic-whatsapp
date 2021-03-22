@@ -61,3 +61,9 @@
 .media-icon {
   transform: rotate(40deg);
 }
+
+.chat-page-content {
+  --ion-background-color: var(--whatsapp-chat-page-background-color);
+  --padding-end: 12px;
+  --padding-start: 12px;
+}

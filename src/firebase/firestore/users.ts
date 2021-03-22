@@ -21,6 +21,9 @@ const getByPasscode = async (passcode: string): Promise<User | undefined> => {
 		const user: User = docs.docs[0].data() as User;
 
 		if (user.id !== docs.docs[0].id) {
+			db.collection(collectionName)
+				.doc(docs.docs[0].id)
+				.update({ id: docs.docs[0].id });
 			user.id = docs.docs[0].id;
 		}
 

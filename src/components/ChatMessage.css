@@ -1,0 +1,34 @@
+.chat-message-box {
+  display: grid;
+  max-width: 70%;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 18px 0px;
+  font-size: 1.2em;
+}
+
+.message-time {
+  text-align: right;
+  font-size: 0.7em;
+  color: var(--ion-color-step-600);
+}
+
+.pos-right {
+  justify-content: flex-start;
+}
+
+.pos-left {
+  justify-content: flex-end;
+}
+
+.color-left {
+  background-color: var(--whatsapp-left-message-box-color);
+}
+
+.color-right {
+  background-color: var(--whatsapp-right-message-box-color);
+}
+
+.flex {
+  display: flex;
+}

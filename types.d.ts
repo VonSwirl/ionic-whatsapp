@@ -42,8 +42,7 @@ interface User {
 }
 
 interface Message {
-	id: string;
-	time: Date;
+	time: { seconds: number; nanoseconds: number } | Date;
 	type: "text" | "media";
 	sentBy: string;
 	channel: string;

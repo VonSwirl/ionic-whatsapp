@@ -15,14 +15,15 @@ import {
 	useIonViewWillEnter,
 	useIonViewWillLeave,
 } from "@ionic/react";
-import { useContext, useState } from "react";
+import { Now } from "../utils";
 import { AppContext } from "../state";
-import { happyOutline, linkOutline, sendSharp } from "ionicons/icons";
-import { uniqueString, getTimestamp } from "../utils";
+import { useContext, useState } from "react";
 import { Messages } from "../firebase/firestore/messages";
+import { ChatMessage } from "../components/ChatMessage";
+import { happyOutline, linkOutline, sendSharp } from "ionicons/icons";
 
-export const ChatPage = (state: State) => {
-	const { dispatch } = useContext(AppContext);
+export const ChatPage = () => {
+	const { state, dispatch } = useContext(AppContext);
 	const [message, setMessage] = useState<string | null>(null);
 	const [chatMessages, setChatMessages] = useState<Message[]>([]);
 
@@ -42,10 +43,9 @@ export const ChatPage = (state: State) => {
 	const sendMessage = async () => {
 		if (message && state.user && state.chatWith) {
 			Messages.sendMessage({
-				id: uniqueString(),
 				type: "text",
 				sentBy: state.user.id,
-				time: getTimestamp(),
+				time: Now,
 				channel: `${state.user.id},${state.chatWith.userId}`,
 				message: message,
 			});
@@ -82,9 +82,9 @@ export const ChatPage = (state: State) => {
 					</IonTitle>
 				</IonToolbar>
 			</IonHeader>
-			<IonContent>
-				{chatMessages.map((chat) => (
-					<div key={chat.id}>{chat.message}</div>
+			<IonContent className="chat-page-content">
+				{chatMessages.map((chat, i) => (
+					<ChatMessage key={i + chat.sentBy} {...chat} />
 				))}
 			</IonContent>
 			<IonFooter>

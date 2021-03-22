@@ -32,7 +32,7 @@ export const UserPage = () => {
 						<Redirect to="/chats" />
 					</Route>
 					<Route exact path="/chat-page">
-						<ChatPage {...state} />
+						<ChatPage />
 					</Route>
 				</IonRouterOutlet>
 				{state.showTabs ? (
