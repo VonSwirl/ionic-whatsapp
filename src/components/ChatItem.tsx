@@ -1,4 +1,7 @@
 import { IonAvatar, IonItem, IonLabel } from "@ionic/react";
+import { useContext } from "react";
+import { useHistory } from "react-router";
+import { AppContext } from "../state";
 
 interface Props {
 	name: string;
@@ -9,8 +12,23 @@ interface Props {
 export const ChatItem = (props: Props) => {
 	const { avatar, name, message } = props;
 
+	const history = useHistory();
+
+	const { dispatch } = useContext(AppContext);
+
+	const goToChat = () => {
+		// Disables the IonTabs for chat-page
+		dispatch({ type: "setShowTabs", payload: false });
+
+		// Provides contact to chat-page
+		dispatch({ type: "setChatWith", payload: props });
+
+		// Navigate to chat-page
+		history.push("/chat-page");
+	};
+
 	return (
-		<IonItem>
+		<IonItem onClick={() => goToChat()}>
 			<IonAvatar slot="start">
 				<img
 					src={

@@ -16,14 +16,13 @@ declare namespace NodeJS {
 	}
 }
 
+type DispatchTypes = "setAppName" | "loadUser" | "setShowTabs" | "setChatWith";
+
 interface State {
 	appName: string;
 	user: User | undefined;
-}
-
-interface AppActions {
-	type: "setAppName" | "loadUser";
-	payload: string;
+	showTabs: boolean;
+	chatWith: Contact | undefined;
 }
 
 interface Contact {
@@ -31,6 +30,7 @@ interface Contact {
 	name: string;
 	avatar: string;
 }
+
 interface User {
 	id: string;
 	name: string;
@@ -39,6 +39,7 @@ interface User {
 	contacts: Contact[];
 	passcode: string;
 }
+
 interface Message {
 	id: string;
 	sentBy: string;
@@ -60,8 +61,6 @@ type Dispatch = ({
 	type: DispatchTypes;
 	payload: any;
 }) => void;
-
-type DispatchTypes = "setAppName" | "loadUser";
 
 interface IContextProps {
 	state: State;

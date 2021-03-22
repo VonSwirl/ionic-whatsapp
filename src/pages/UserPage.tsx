@@ -9,8 +9,12 @@ import { CallsTab } from "./CallsTab";
 import { ChatPage } from "./ChatPage";
 import "../theme/variables.css";
 import "../app/App.css";
+import { useContext } from "react";
+import { AppContext } from "../state";
 
 export const UserPage = () => {
+	const { state } = useContext(AppContext);
+
 	return (
 		<IonReactRouter>
 			<IonTabs>
@@ -31,17 +35,21 @@ export const UserPage = () => {
 						<ChatPage />
 					</Route>
 				</IonRouterOutlet>
-				<IonTabBar slot="top" className="menu-bar">
-					<IonTabButton tab="chat" href="/chats" className="tab-button">
-						<IonLabel onClick={() => runSeeder()}>CHATS</IonLabel>
-					</IonTabButton>
-					<IonTabButton tab="status" href="/status" className="tab-button">
-						<IonLabel>STATUS</IonLabel>
-					</IonTabButton>
-					<IonTabButton tab="calls" href="/calls" className="tab-button">
-						<IonLabel>CALLS</IonLabel>
-					</IonTabButton>
-				</IonTabBar>
+				{state.showTabs ? (
+					<IonTabBar slot="top" className="menu-bar">
+						<IonTabButton tab="chat" href="/chats" className="tab-button">
+							<IonLabel onClick={() => runSeeder()}>CHATS</IonLabel>
+						</IonTabButton>
+						<IonTabButton tab="status" href="/status" className="tab-button">
+							<IonLabel>STATUS</IonLabel>
+						</IonTabButton>
+						<IonTabButton tab="calls" href="/calls" className="tab-button">
+							<IonLabel>CALLS</IonLabel>
+						</IonTabButton>
+					</IonTabBar>
+				) : (
+					<IonTabBar />
+				)}
 			</IonTabs>
 		</IonReactRouter>
 	);
