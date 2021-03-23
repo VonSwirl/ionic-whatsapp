@@ -48,9 +48,10 @@ export const ChatPage = () => {
 	});
 
 	useIonViewWillLeave(() => {
-		dispatch({ type: "setShowTabs", payload: true });
 		//@ts-ignore
 		if (unsub && unsub.current) unsub.current();
+
+		dispatch({ type: "setShowTabs", payload: true });
 	});
 
 	const sendMessage = async (type: MediaTypes, fileUrl?: string) => {

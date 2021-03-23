@@ -23,7 +23,8 @@ import { UserPage } from "../pages/UserPage";
 
 const App: React.FC = () => {
 	const { state } = useContext(AppContext);
-	return <IonApp>{state.user ? <UserPage /> : <Login />}</IonApp>;
+
+	return <IonApp>{!state.user ? <Login /> : <UserPage />}</IonApp>;
 };
 
 export default App;

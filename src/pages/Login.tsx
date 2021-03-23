@@ -1,3 +1,6 @@
+import { AppContext } from "../state";
+import { useState, useContext } from "react";
+import { Users } from "../firebase/firestore/users";
 import {
 	IonButton,
 	IonContent,
@@ -9,9 +12,6 @@ import {
 	IonTitle,
 	IonToolbar,
 } from "@ionic/react";
-import { useState, useContext } from "react";
-import { AppContext } from "../state";
-import { Users } from "../firebase/firestore/users";
 
 export const Login = () => {
 	const { dispatch } = useContext(AppContext);
@@ -25,10 +25,13 @@ export const Login = () => {
 	const handleLogin = async () => {
 		setShowLoading(true);
 
-		const user = await Users.getByPasscode(passcode);
+		const authUser = (await Users.getByPasscode(passcode)) as User;
 
-		if (user) {
-			setTimeout(() => dispatch({ type: "loadUser", payload: user }), 2600);
+		if (authUser && authUser.id) {
+			setTimeout(() => {
+				setShowLoading(false);
+				dispatch({ type: "loadUser", payload: authUser });
+			}, 2600);
 		} else {
 			setTimeout(() => {
 				alert("Wrong passcode provided");
@@ -65,7 +68,7 @@ export const Login = () => {
 				<IonButton
 					disabled={loginDisabled}
 					className="login-button"
-					onClick={handleLogin}
+					onClick={() => handleLogin}
 				>
 					Login
 				</IonButton>
