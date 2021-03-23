@@ -6,7 +6,7 @@ export const getToday = () => {
 	return moment().format("YYY-MM-DD");
 };
 
-export const Now = new Date();
+export const Now = () => new Date();
 
 export const getTime = (timestamp: any) => {
 	const date = new Date(timestamp * 1000);

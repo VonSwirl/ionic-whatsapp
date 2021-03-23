@@ -10,8 +10,8 @@ export const ChatMessage = (props: Message) => {
 
 	const userId = context.state.user?.id;
 
-	const msgPosition = sentBy !== userId ? "pos-left" : "pos-right";
-	const msgColor = sentBy === userId ? "color-left" : "color-right";
+	const msgPosition = sentBy === userId ? "pos-left" : "pos-right";
+	const msgColor = sentBy !== userId ? "color-left" : "color-right";
 
 	return (
 		<div className={`flex ${msgPosition}`}>

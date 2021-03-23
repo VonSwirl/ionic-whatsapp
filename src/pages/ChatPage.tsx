@@ -21,6 +21,7 @@ import { useContext, useRef, useState } from "react";
 import { Messages } from "../firebase/firestore/messages";
 import { ChatMessage } from "../components/ChatMessage";
 import { happyOutline, linkOutline, sendSharp } from "ionicons/icons";
+import { Plugins, CameraResultType } from "@capacitor/core";
 
 export const ChatPage = () => {
 	const { state, dispatch } = useContext(AppContext);
@@ -28,6 +29,8 @@ export const ChatPage = () => {
 	const [chatMessages, setChatMessages] = useState<Message[]>([]);
 
 	let unsub = useRef(undefined);
+
+	const { Camera } = Plugins;
 
 	useIonViewWillEnter(async () => {
 		if (state && state.user && state.chatWith) {
@@ -48,14 +51,15 @@ export const ChatPage = () => {
 		if (unsub && unsub.current) unsub.current();
 	});
 
-	const sendMessage = async () => {
-		if (message && state.user && state.chatWith) {
+	const sendMessage = async (type: MediaTypes, fileUrl?: string) => {
+		if ((message || type === "media") && state.user && state.chatWith) {
 			Messages.sendMessage({
-				type: "text",
+				type,
+				time: Now(),
+				fileUrl: fileUrl || "",
+				message: message || "",
 				sentBy: state.user.id,
-				time: Now,
 				channel: `${state.user.id},${state.chatWith.userId}`,
-				message: message,
 			});
 
 			setMessage(null);
@@ -64,6 +68,16 @@ export const ChatPage = () => {
 
 	const onChangeMessage = (message: string | null | undefined) => {
 		if (message) setMessage(message);
+	};
+
+	const getImage = async () => {
+		const image = await Camera.getPhoto({
+			quality: 90,
+			allowEditing: false,
+			resultType: CameraResultType.Base64,
+		});
+
+		await sendMessage("media", image.base64String);
 	};
 
 	return (
@@ -115,6 +129,7 @@ export const ChatPage = () => {
 												className="media-icon"
 												size="large"
 												icon={linkOutline}
+												onClick={() => getImage()}
 											></IonIcon>
 										</IonCol>
 									</IonRow>
@@ -122,7 +137,7 @@ export const ChatPage = () => {
 							</IonCol>
 							<IonCol size="2">
 								<IonButton
-									onClick={() => sendMessage()}
+									onClick={() => sendMessage("text")}
 									className="chat-send-button"
 								>
 									<IonIcon icon={sendSharp}></IonIcon>

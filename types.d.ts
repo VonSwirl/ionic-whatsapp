@@ -40,13 +40,15 @@ interface User {
 	passcode: string;
 }
 
+type MediaTypes = "text" | "media";
+
 interface Message {
 	time: { seconds: number; nanoseconds: number } | Date;
-	type: "text" | "media";
+	type: MediaTypes;
 	sentBy: string;
 	channel: string;
 	message: string;
-	fileUrl?: string;
+	fileUrl: string;
 }
 
 type MessageSortingOptions =

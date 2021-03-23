@@ -8,6 +8,7 @@
 }
 
 .message-time {
+  margin-top: 5px;
   text-align: right;
   font-size: 0.7em;
   color: var(--ion-color-step-600);
