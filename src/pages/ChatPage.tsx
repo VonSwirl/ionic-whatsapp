@@ -15,7 +15,7 @@ import {
 	useIonViewWillEnter,
 	useIonViewWillLeave,
 } from "@ionic/react";
-import { Now } from "../utils";
+import { Now, uniqueString } from "../utils";
 import { AppContext } from "../state";
 import { useContext, useRef, useState } from "react";
 import { Messages } from "../firebase/firestore/messages";
@@ -54,6 +54,7 @@ export const ChatPage = () => {
 	const sendMessage = async (type: MediaTypes, fileUrl?: string) => {
 		if ((message || type === "media") && state.user && state.chatWith) {
 			Messages.sendMessage({
+				id: uniqueString(),
 				type,
 				time: Now(),
 				fileUrl: fileUrl || null,

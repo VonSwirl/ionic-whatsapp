@@ -1,13 +1,14 @@
 import {
 	IonAvatar,
+	IonBadge,
 	IonItem,
 	IonLabel,
 	useIonViewDidEnter,
-	useIonViewWillLeave,
+	useIonViewDidLeave,
 } from "@ionic/react";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
-import { Messages } from "../firebase/firestore/messages";
+import { messageDB } from "../firebase/firestore/messages";
 import { AppContext } from "../state";
 
 export const ChatItem = (props: Contact) => {
@@ -17,23 +18,48 @@ export const ChatItem = (props: Contact) => {
 
 	let unsub = useRef(undefined);
 
-	const [lastMessage, setLastMessage] = useState("Say Hi!");
 	const { state, dispatch } = useContext(AppContext);
+	const [newMessagesCount, setNewMessagesCount] = useState(0);
+	const [previous, setPrevious] = useState<Message[]>([]);
+	const [lastMessage, setLastMessage] = useState<Message[]>([]);
+
+	useEffect(() => {
+		if (lastMessage[0] && previous[0]) {
+			if (lastMessage[0].id !== previous[0].id) {
+				if (lastMessage[0].sentBy !== state.user?.id) {
+					setNewMessagesCount(newMessagesCount + 1);
+				}
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [lastMessage, previous]);
 
 	useIonViewDidEnter(async () => {
+		if (!previous.length && lastMessage.length) {
+			console.log("ssdssdsdsd");
+		}
 		if (state && state.user) {
 			const userA = state.user.id;
 			const userB = userId;
+
 			//@ts-ignore
-			unsub.current = await Messages.listenToLastMessage({
-				userA,
-				userB,
-				set: setLastMessage,
-			});
+			unsub.current = messageDB
+				.where("channel", "in", [`${userA},${userB}`, `${userB},${userA}`])
+				.orderBy("time", "desc")
+				.limit(1)
+				.onSnapshot((snap) => {
+					if (!snap.empty) {
+						const newMessage = [];
+						const message = snap.docs[0].data() as Message;
+						newMessage.push(message);
+						setPrevious(lastMessage || newMessage);
+						setLastMessage(newMessage);
+					}
+				});
 		}
 	});
 
-	useIonViewWillLeave(() => {
+	useIonViewDidLeave(() => {
 		//@ts-ignore
 		if (unsub && unsub.current) unsub.current();
 	});
@@ -45,9 +71,16 @@ export const ChatItem = (props: Contact) => {
 		// Provides contact to chat-page
 		dispatch({ type: "setChatWith", payload: props });
 
+		// Reset counter when viewing chat
+		setNewMessagesCount(0);
+
 		// Navigate to chat-page
 		history.push("/chat-page", state);
 	};
+
+	if (!previous.length && lastMessage.length) {
+		setPrevious(lastMessage);
+	}
 
 	return (
 		<IonItem onClick={() => goToChat()}>
@@ -62,8 +95,13 @@ export const ChatItem = (props: Contact) => {
 			</IonAvatar>
 			<IonLabel>
 				<h2>{name}</h2>
-				<p>{lastMessage}</p>
+				<p>{lastMessage[0] ? lastMessage[0].message : "..."}</p>
 			</IonLabel>
+			{newMessagesCount > 0 && (
+				<IonBadge color="success" slot="end">
+					{newMessagesCount}
+				</IonBadge>
+			)}
 		</IonItem>
 	);
 };

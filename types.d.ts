@@ -1,3 +1,4 @@
+// NAMESPACES
 declare namespace NodeJS {
 	interface ProcessEnv {
 		NODE_ENV: "development" | "production" | "test";
@@ -16,12 +17,31 @@ declare namespace NodeJS {
 	}
 }
 
+// TYPES
 type DispatchTypes = "setAppName" | "loadUser" | "setShowTabs" | "setChatWith";
+type MediaTypes = "text" | "media";
+type IFirestoreData = Message | User;
+type CollectionName = "users" | "messages";
+type MessageSortingOptions =
+	| "time"
+	| "type"
+	| "sentBy"
+	| "fileUrl"
+	| "channel"
+	| "message";
+type Dispatch = ({
+	type,
+	payload,
+}: {
+	type: DispatchTypes;
+	payload: any;
+}) => void;
 
+// INTERFACES
 interface State {
 	appName: string;
-	user: User | undefined;
 	showTabs: boolean;
+	user: User | undefined;
 	chatWith: Contact | undefined;
 }
 
@@ -36,33 +56,23 @@ interface User {
 	name: string;
 	avatar: string;
 	lastSeen: Date;
-	contacts: Contact[];
 	passcode: string;
+	contacts: Contact[];
 }
 
-type MediaTypes = "text" | "media";
-
 interface Message {
-	time: { seconds: number; nanoseconds: number } | Date;
-	type: MediaTypes;
+	id: string;
 	sentBy: string;
 	channel: string;
 	message: string;
-	fileUrl: string;
+	type: MediaTypes;
+	fileUrl: string | null;
+	time: { seconds: number; nanoseconds: number } | Date;
 }
-
-type MessageSortingOptions =
-	| "time"
-	| "type"
-	| "sentBy"
-	| "channel"
-	| "message"
-	| "fileUrl";
 
 interface Channel {
 	userA: string;
 	userB: string;
-	set: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
 interface MessagesListener extends Channel {
@@ -70,20 +80,10 @@ interface MessagesListener extends Channel {
 }
 
 interface LastMessagesListener extends Channel {
-	set: React.Dispatch<React.SetStateAction<string>>;
+	setLastMessage: React.Dispatch<React.SetStateAction<Message[]>>;
+	setPrevious: React.Dispatch<React.SetStateAction<Message[]>>;
+	lastMessage: Message[];
 }
-
-type IFirestoreData = Message | User;
-
-type CollectionName = "users" | "messages";
-
-type Dispatch = ({
-	type,
-	payload,
-}: {
-	type: DispatchTypes;
-	payload: any;
-}) => void;
 
 interface IContextProps {
 	state: State;
