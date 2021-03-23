@@ -56,7 +56,7 @@ export const ChatPage = () => {
 			Messages.sendMessage({
 				type,
 				time: Now(),
-				fileUrl: fileUrl || "",
+				fileUrl: fileUrl || null,
 				message: message || "",
 				sentBy: state.user.id,
 				channel: `${state.user.id},${state.chatWith.userId}`,
@@ -77,7 +77,10 @@ export const ChatPage = () => {
 			resultType: CameraResultType.Base64,
 		});
 
-		await sendMessage("media", image.base64String);
+		await sendMessage(
+			"media",
+			`data:image/${image.format};base64,${image.base64String}`
+		);
 	};
 
 	return (
