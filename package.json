@@ -4,6 +4,7 @@
 	"private": true,
 	"types": "types.d.ts",
 	"scripts": {
+		"heroku-prebuild": "npm install -g @ionic/cli",
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
