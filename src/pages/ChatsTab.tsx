@@ -18,7 +18,6 @@ export const ChatsTab = (props: Props) => {
 							key={contact.name}
 							avatar={contact.avatar}
 							name={contact.name}
-							lastMessage={contact.lastMessage}
 						/>
 					))}
 				</IonList>

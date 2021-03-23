@@ -26,18 +26,20 @@ const listenToChatMessages = async (params: MessagesListener) => {
 
 const listenToLastMessage = async (params: LastMessagesListener) => {
 	const { set, userA, userB } = params;
-
 	return messageDB
 		.where("channel", "in", [`${userA},${userB}`, `${userB},${userA}`])
 		.orderBy("time", "desc")
 		.limit(1)
 		.onSnapshot((snap) => {
-			if (!snap.empty) set(snap.docs[0].data() as Message);
+			if (!snap.empty) {
+				const { message } = snap.docs[0].data() as Message;
+				set(message);
+			}
 		});
 };
 
 export const Messages = {
 	sendMessage,
-	listenToChatMessages,
 	listenToLastMessage,
+	listenToChatMessages,
 };

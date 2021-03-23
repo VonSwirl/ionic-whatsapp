@@ -29,7 +29,6 @@ interface Contact {
 	name: string;
 	userId: string;
 	avatar: string;
-	lastMessage: string;
 }
 
 interface User {
@@ -69,7 +68,7 @@ interface MessagesListener extends Channel {
 }
 
 interface LastMessagesListener extends Channel {
-	set: React.Dispatch<React.SetStateAction<Message>>;
+	set: React.Dispatch<React.SetStateAction<string>>;
 }
 
 type IFirestoreData = Message | User;
