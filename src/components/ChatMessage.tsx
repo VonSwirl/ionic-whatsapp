@@ -1,10 +1,11 @@
+import { IonImg } from "@ionic/react";
 import { useContext } from "react";
 import { AppContext } from "../state";
 import { getTime } from "../utils";
 import "./ChatMessage.css";
 
 export const ChatMessage = (props: Message) => {
-	const { message, time, sentBy } = props;
+	const { message, time, sentBy, type, fileUrl } = props;
 
 	const context = useContext(AppContext);
 
@@ -16,6 +17,7 @@ export const ChatMessage = (props: Message) => {
 	return (
 		<div className={`flex ${msgPosition}`}>
 			<div className={`chat-message-box ${msgColor}`}>
+				{type === "media" && fileUrl && <IonImg src={fileUrl} />}
 				{message}
 				<div className="message-time">{getTime(time)}</div>
 			</div>
