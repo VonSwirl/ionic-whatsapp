@@ -3,8 +3,6 @@ import { db } from "./db";
 const collectionName = "users";
 
 const getByPasscode = async (passcode: string): Promise<User | undefined> => {
-	console.log("qqqq");
-
 	const docs = await db
 		.collection(collectionName)
 		.where("passcode", "==", passcode)

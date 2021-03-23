@@ -8,7 +8,6 @@ interface Props {}
 export const ChatsTab = (props: Props) => {
 	const { state } = useContext(AppContext);
 
-	console.log({ state });
 	return (
 		<IonPage>
 			<IonContent className="chat-page">

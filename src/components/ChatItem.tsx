@@ -1,14 +1,30 @@
-import { IonAvatar, IonItem, IonLabel } from "@ionic/react";
-import { useContext } from "react";
+import { IonAvatar, IonItem, IonLabel, useIonViewDidEnter } from "@ionic/react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router";
+import { Messages } from "../firebase/firestore/messages";
 import { AppContext } from "../state";
 
 export const ChatItem = (props: Contact) => {
-	const { avatar, name, lastMessage } = props;
+	const { avatar, name, lastMessage, userId } = props;
 
 	const history = useHistory();
 
+	const [lastMessageSent, setLastMessageSent] = useState({});
 	const { state, dispatch } = useContext(AppContext);
+
+	useIonViewDidEnter(async () => {
+		if (state && state.user && state.chatWith) {
+			const userA = state.user.id;
+			const userB = userId;
+
+			//@ts-ignore
+			unsub.current = await Messages.listenToLastMessage({
+				userA,
+				userB,
+				set: setLastMessageSent,
+			});
+		}
+	});
 
 	const goToChat = () => {
 		// Disables the IonTabs for chat-page

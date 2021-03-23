@@ -2,20 +2,16 @@ import { db } from "./db";
 
 const collectionName = "messages";
 
+export const messageDB = db.collection(collectionName);
+
 const sendMessage = async (message: Message) => {
-	await db
-		.collection(collectionName)
-		.add(message)
-		.then((doc) => doc.update({ id: doc.id }));
+	await messageDB.add(message).then((doc) => doc.update({ id: doc.id }));
 };
 
-const subscribe = (
-	userA: string,
-	userB: string,
-	callback: React.Dispatch<React.SetStateAction<Message[]>>
-) => {
-	console.log({ userA, userB });
-	db.collection(collectionName)
+const listenToChatMessages = async (params: MessagesListener) => {
+	const { set, userA, userB } = params;
+
+	return messageDB
 		.where("channel", "in", [`${userA},${userB}`, `${userB},${userA}`])
 		.orderBy("time")
 		.limit(100)
@@ -23,16 +19,25 @@ const subscribe = (
 			if (!snap.empty) {
 				let msg: Message[] = [];
 				snap.forEach((doc) => msg.push(doc.data() as Message));
-				console.log({ msg });
-				callback(msg);
+				set(msg);
 			}
 		});
 };
 
-const unSubscribe = db.collection("cities").onSnapshot(() => {});
+const listenToLastMessage = async (params: LastMessagesListener) => {
+	const { set, userA, userB } = params;
+
+	return messageDB
+		.where("channel", "in", [`${userA},${userB}`, `${userB},${userA}`])
+		.orderBy("time", "desc")
+		.limit(1)
+		.onSnapshot((snap) => {
+			if (!snap.empty) set(snap.docs[0].data() as Message);
+		});
+};
 
 export const Messages = {
 	sendMessage,
-	subscribe,
-	unSubscribe,
+	listenToChatMessages,
+	listenToLastMessage,
 };

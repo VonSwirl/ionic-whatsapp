@@ -50,6 +50,28 @@ interface Message {
 	fileUrl?: string;
 }
 
+type MessageSortingOptions =
+	| "time"
+	| "type"
+	| "sentBy"
+	| "channel"
+	| "message"
+	| "fileUrl";
+
+interface Channel {
+	userA: string;
+	userB: string;
+	set: React.Dispatch<React.SetStateAction<Message[]>>;
+}
+
+interface MessagesListener extends Channel {
+	set: React.Dispatch<React.SetStateAction<Message[]>>;
+}
+
+interface LastMessagesListener extends Channel {
+	set: React.Dispatch<React.SetStateAction<Message>>;
+}
+
 type IFirestoreData = Message | User;
 
 type CollectionName = "users" | "messages";

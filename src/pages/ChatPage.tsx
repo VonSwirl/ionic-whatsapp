@@ -17,7 +17,7 @@ import {
 } from "@ionic/react";
 import { Now } from "../utils";
 import { AppContext } from "../state";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Messages } from "../firebase/firestore/messages";
 import { ChatMessage } from "../components/ChatMessage";
 import { happyOutline, linkOutline, sendSharp } from "ionicons/icons";
@@ -27,17 +27,25 @@ export const ChatPage = () => {
 	const [message, setMessage] = useState<string | null>(null);
 	const [chatMessages, setChatMessages] = useState<Message[]>([]);
 
+	let unsub = useRef(undefined);
+
 	useIonViewWillEnter(async () => {
 		if (state && state.user && state.chatWith) {
 			const userA = state.user.id;
 			const userB = state.chatWith.userId;
-			Messages.subscribe(userA, userB, setChatMessages);
+			// @ts-ignore
+			unsub.current = await Messages.listenToChatMessages({
+				userA,
+				userB,
+				set: setChatMessages,
+			});
 		}
 	});
 
 	useIonViewWillLeave(() => {
 		dispatch({ type: "setShowTabs", payload: true });
-		Messages.unSubscribe();
+		// @ts-ignore
+		unsub.current();
 	});
 
 	const sendMessage = async () => {
@@ -55,8 +63,6 @@ export const ChatPage = () => {
 	};
 
 	const onChangeMessage = (message: string | null | undefined) => {
-		console.log(state.chatWith);
-
 		if (message) setMessage(message);
 	};
 
