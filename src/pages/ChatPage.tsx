@@ -1,4 +1,5 @@
 import {
+	IonAlert,
 	IonAvatar,
 	IonButton,
 	IonCol,
@@ -25,6 +26,7 @@ import { Plugins, CameraResultType } from "@capacitor/core";
 
 export const ChatPage = () => {
 	const { state, dispatch } = useContext(AppContext);
+	const [showAlert, setShowAlert] = useState(false);
 	const [message, setMessage] = useState<string | null>(null);
 	const [chatMessages, setChatMessages] = useState<Message[]>([]);
 
@@ -53,12 +55,14 @@ export const ChatPage = () => {
 
 	const sendMessage = async (type: MediaTypes, fileUrl?: string) => {
 		if ((message || type === "media") && state.user && state.chatWith) {
+			let messageTxt = message;
+			if (!message && type === "media") messageTxt = "View file";
 			Messages.sendMessage({
 				id: uniqueString(),
 				type,
 				time: Now(),
 				fileUrl: fileUrl || null,
-				message: message || "",
+				message: messageTxt || "...",
 				sentBy: state.user.id,
 				channel: `${state.user.id},${state.chatWith.userId}`,
 			});
@@ -81,6 +85,25 @@ export const ChatPage = () => {
 		await sendMessage(
 			"media",
 			`data:image/${image.format};base64,${image.base64String}`
+		);
+	};
+
+	const EmojiPicker = () => {
+		/**
+		 * TODO:
+		 * @see - https://ionicframework.com/docs/api/alert
+		 * @see - https://capacitorjs.com/docs/apis/keyboard
+		 */
+		return (
+			<IonAlert
+				isOpen={showAlert}
+				onDidDismiss={() => setShowAlert(false)}
+				cssClass="my-custom-class"
+				header={"Emoji Selector"}
+				subHeader={"Coming Soon!"}
+				message={"View comments for more info."}
+				buttons={["Cancel"]}
+			/>
 		);
 	};
 
@@ -110,6 +133,7 @@ export const ChatPage = () => {
 				{chatMessages.map((chat, i) => (
 					<ChatMessage key={i + chat.sentBy} {...chat} />
 				))}
+				<EmojiPicker />
 			</IonContent>
 			<IonFooter>
 				<IonToolbar>
@@ -119,7 +143,13 @@ export const ChatPage = () => {
 								<IonGrid>
 									<IonRow>
 										<IonCol size="2">
-											<IonIcon size="large" icon={happyOutline}></IonIcon>
+											<IonIcon
+												size="large"
+												icon={happyOutline}
+												onClick={() =>
+													!showAlert ? setShowAlert(true) : undefined
+												}
+											></IonIcon>
 										</IonCol>
 										<IonCol size="8">
 											<IonInput

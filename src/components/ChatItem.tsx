@@ -20,13 +20,13 @@ export const ChatItem = (props: Contact) => {
 
 	const { state, dispatch } = useContext(AppContext);
 	const [newMessagesCount, setNewMessagesCount] = useState(0);
-	const [previous, setPrevious] = useState<Message[]>([]);
-	const [lastMessage, setLastMessage] = useState<Message[]>([]);
+	const [previous, setPrevious] = useState<Message | null>(null);
+	const [lastMessage, setLastMessage] = useState<Message | null>(null);
 
 	useEffect(() => {
-		if (lastMessage[0] && previous[0]) {
-			if (lastMessage[0].id !== previous[0].id) {
-				if (lastMessage[0].sentBy !== state.user?.id) {
+		if (lastMessage && previous) {
+			if (lastMessage.id !== previous.id) {
+				if (lastMessage.sentBy !== state.user?.id) {
 					setNewMessagesCount(newMessagesCount + 1);
 				}
 			}
@@ -35,9 +35,6 @@ export const ChatItem = (props: Contact) => {
 	}, [lastMessage, previous]);
 
 	useIonViewDidEnter(async () => {
-		if (!previous.length && lastMessage.length) {
-			console.log("ssdssdsdsd");
-		}
 		if (state && state.user) {
 			const userA = state.user.id;
 			const userB = userId;
@@ -49,9 +46,7 @@ export const ChatItem = (props: Contact) => {
 				.limit(1)
 				.onSnapshot((snap) => {
 					if (!snap.empty) {
-						const newMessage = [];
-						const message = snap.docs[0].data() as Message;
-						newMessage.push(message);
+						const newMessage = snap.docs[0].data() as Message;
 						setPrevious(lastMessage || newMessage);
 						setLastMessage(newMessage);
 					}
@@ -78,7 +73,7 @@ export const ChatItem = (props: Contact) => {
 		history.push("/chat-page", state);
 	};
 
-	if (!previous.length && lastMessage.length) {
+	if (!previous && lastMessage) {
 		setPrevious(lastMessage);
 	}
 
@@ -95,7 +90,7 @@ export const ChatItem = (props: Contact) => {
 			</IonAvatar>
 			<IonLabel>
 				<h2>{name}</h2>
-				<p>{lastMessage[0] ? lastMessage[0].message : "..."}</p>
+				<p>{lastMessage ? lastMessage.message : "..."}</p>
 			</IonLabel>
 			{newMessagesCount > 0 && (
 				<IonBadge color="success" slot="end">

@@ -79,12 +79,6 @@ interface MessagesListener extends Channel {
 	set: React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
-interface LastMessagesListener extends Channel {
-	setLastMessage: React.Dispatch<React.SetStateAction<Message[]>>;
-	setPrevious: React.Dispatch<React.SetStateAction<Message[]>>;
-	lastMessage: Message[];
-}
-
 interface IContextProps {
 	state: State;
 	dispatch: Dispatch;
