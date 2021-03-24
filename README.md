@@ -1,5 +1,6 @@
 # ionic-whatsapp
 **An Ionic WhatsApp clone for educational purposes**
+
 Has partial functionality compare to the real WhatsApp.
 
 ## Demo
