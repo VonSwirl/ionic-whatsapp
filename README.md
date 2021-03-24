@@ -14,10 +14,10 @@ _Development Screenshot_
 Feel free to have a play
 
 You will need Batmans passcode:
-    passcode: 111111
+    - passcode: 111111
 
 And Robins passcode:
-    passcode: 222222
+    - passcode: 222222
 
 To view chat between these two hero's you will need to have at least one of your browser open in incognito.
 
