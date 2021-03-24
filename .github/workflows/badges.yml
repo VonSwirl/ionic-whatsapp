@@ -3,16 +3,16 @@ name: Build Badges
 on: [push]
 
 jobs:
-  answer-badge:
-    name: Create Answer Badge
+  badge:
+    name: Create Badge
     runs-on: ubuntu-latest
     steps:
       - name: Dynamic Badges
         uses: Schneegans/dynamic-badges-action@v1.0.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
-          gistID: 6e1b5f4f4259301c69e46f70cab4ed88
-          filename: action-badge.json
+          gistID: 3827cbacb1d5985745fa1a2029c3bb10
+          filename: create-badge.json
           label: The Answer is
           message: Hi
           color: green
