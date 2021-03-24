@@ -24,7 +24,6 @@ export const Login = () => {
 
 	const handleLogin = async () => {
 		setShowLoading(true);
-
 		const authUser = (await Users.getByPasscode(passcode)) as User;
 
 		if (authUser && authUser.id) {
@@ -68,7 +67,7 @@ export const Login = () => {
 				<IonButton
 					disabled={loginDisabled}
 					className="login-button"
-					onClick={() => handleLogin}
+					onClick={handleLogin}
 				>
 					Login
 				</IonButton>

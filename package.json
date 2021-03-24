@@ -5,8 +5,9 @@
 	"types": "types.d.ts",
 	"scripts": {
 		"heroku-prebuild": "npm install -g @ionic/cli; npm install -g serve",
+		"start:dev": "ionic serve -p 4000 --no-open --lab",
 		"start": "serve -s build -l $PORT",
-		"build": "react-scripts build",
+		"build": "ionic build --prod",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},
@@ -66,7 +67,8 @@
 		]
 	},
 	"devDependencies": {
-		"@capacitor/cli": "2.4.7"
+		"@capacitor/cli": "2.4.7",
+		"@ionic/lab": "3.2.10"
 	},
 	"description": "An Ionic project"
 }
