@@ -5,7 +5,7 @@
 	"types": "types.d.ts",
 	"scripts": {
 		"heroku-prebuild": "npm install -g @ionic/cli; npm install -g serve",
-		"start": "serve -s build",
+		"start": "serve -s build serve -l $PORT",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
