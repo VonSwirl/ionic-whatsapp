@@ -1,7 +1,7 @@
 # ionic-whatsapp
 
 ## Description
-This is an ***[Ionic](https://ionicframework.com/blog/heroku-ionic/)*** WhatsApp clone for educational purposes.
+This is an **[Ionic](https://ionicframework.com/blog/heroku-ionic/)** WhatsApp clone for educational purposes.
 
 Has partial functionality compare to the real WhatsApp.
 
