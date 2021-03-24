@@ -12,7 +12,7 @@ jobs:
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 6e1b5f4f4259301c69e46f70cab4ed88
-          filename: answer.json
+          filename: action-badge.json
           label: The Answer is
           message: Hi
           color: green
