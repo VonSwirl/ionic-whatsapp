@@ -7,14 +7,12 @@ jobs:
     name: Create Answer Badge
     runs-on: ubuntu-latest
     steps:
-      - name: Get the Numbers
-        run: echo "ANSWER=42" >> $GITHUB_ENV
-      - name: Create the Badge
-        uses: schneegans/dynamic-badges-action@master
+      - name: Dynamic Badges
+        uses: Schneegans/dynamic-badges-action@v1.0.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
-          gistID: 2ab8f1d386f13aaebccbd87dac94068d
+          gistID: 6e1b5f4f4259301c69e46f70cab4ed88
           filename: answer.json
           label: The Answer is
-          message: ${{ env.ANSWER }}
+          message: Hi
           color: green
